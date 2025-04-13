@@ -1,1 +1,1 @@
-# Projeto-Bioinform-tica
+# Projeto-Bioinformática
