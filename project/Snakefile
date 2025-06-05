@@ -1,0 +1,41 @@
+import os
+
+# Load config
+configfile: "config/config.yaml"
+config["threads"] = workflow.cores
+
+# Module_1
+include: "workflow/rules/module_1/recognizer.smk"
+include: "workflow/rules/module_1/eggnogmapper.smk"
+#include: "workflow/rules/module_1/upimapi.smk"
+
+# Module_2
+include: "workflow/rules/module_2/colabfold.smk"
+include: "workflow/rules/module_2/deepfri.smk"
+include: "workflow/rules/module_2/foldseek.smk"
+
+#module3
+include: "workflow/rules/module_3/clean.smk"
+
+rule all:
+    input:
+        # Module_1
+        "results/recognizer_results/reCOGnizer_results.tsv",
+        "results/eggnogmapper_results/eggnog_mapper_results.emapper.annotations",
+        # "results/upimapi_results.tsv",
+
+        # Module_2
+        "results/colabfold",
+        "data/deepfri_src/.requirements_done",
+        "results/foldseek/output_easy_search.m8",
+        "data/databases/foldseek_db/.pdb_ready",
+        "data/databases/foldseek_db/.pdb_ready",
+        "results/foldseek/output_easy_search.m8",
+
+        # Module_3
+        "data/clean_src/.download_done",
+        "data/clean_src/app/results/inputs/subset_f_maxsep.csv",
+        "data/clean_src/app/.installed",
+        "data/clean_src/app/.installed_esm",
+        "data/clean_src/app/data/pretrained/.models"
+

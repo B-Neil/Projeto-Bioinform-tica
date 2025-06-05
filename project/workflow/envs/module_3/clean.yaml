@@ -1,0 +1,32 @@
+name: clean
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10.4
+  - pip
+  - pytorch=2.0.1
+  - torchvision
+  - torchaudio
+  - cudatoolkit=11.8
+  - biopython
+  - intel-openmp=2023.1.0
+  - unzip
+  - pip:
+      - matplotlib==3.7.0
+      - numpy==1.22.3
+      - pandas==1.4.2
+      - scikit_learn==1.2.0
+      - scipy==1.7.3
+      - tqdm==4.64.0
+      - fair-esm==2.0.0
+      - gdown
+
+
+
+
+#To use cpu
+#  - pytorch=1.11.0
+#  - cpuonly  # <- disables CUDA

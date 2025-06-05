@@ -1,0 +1,12 @@
+name: colabfold_env
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - colabfold
+  - openmm
+  - pdbfixer
+  - hhsuite
+  - kalign2
+  - python=3.9

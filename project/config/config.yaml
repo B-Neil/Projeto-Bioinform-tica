@@ -1,0 +1,4 @@
+input_fasta: "data/proteins/subset_f.fasta"
+output_dir: "results"
+database_dir: "data/databases"
+input_fasta_clean: "data/proteins/subset_f.fasta"

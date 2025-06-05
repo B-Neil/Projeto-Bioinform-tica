@@ -1,0 +1,9 @@
+name: eggnogmapper_env
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.9
+  - eggnog-mapper=2.1.11
+  - biopython=1.79
