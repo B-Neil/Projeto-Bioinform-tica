@@ -1,14 +1,19 @@
+fasta = config["file_path"]
+db_dir = config["database_dir"]
+output_dir = config["output_dir"]
+
+
+
 rule download_foldseek_pdb:
     output:
-        "data/databases/foldseek_db/.pdb_ready",
-        "data/databases/foldseek_db"
+        f"{db_dir}/foldseek_db/.pdb_ready",
     conda:
         "../../envs/module_2/foldseek.yaml"
     shell:
-        """
-        mkdir -p data/databases/foldseek_db
-        rm -f data/databases/foldseek_db/pdb  # evita conflito se já existe como diretório
-        cd data/databases/foldseek_db
+        f"""
+        mkdir -p {db_dir}/foldseek_db
+        rm -f {db_dir}/foldseek_db/pdb
+        cd {db_dir}/foldseek_db
         foldseek databases PDB pb tmp
 
         touch .pdb_ready
@@ -18,16 +23,15 @@ rule download_foldseek_pdb:
 
 rule foldseek_easy_search:
     input:
-        "results/colabfold",
-        "data/databases/foldseek_db",
-        "data/databases/foldseek_db/.pdb_ready"
+        f"{output_dir}/colabfold/config.json",
+        f"{db_dir}/foldseek_db/.pdb_ready"
     output:
-        "results/foldseek/output_easy_search.m8"
+        f"{output_dir}/foldseek/output_easy_search.m8"
     conda:
         "../../envs/module_2/foldseek.yaml"
     shell:
-        """
-        mkdir -p results/foldseek/tmp
-        foldseek easy-search results/colabfold data/databases/foldseek_db/pb results/foldseek/output_easy_search.m8 \
-            results/foldseek/tmp --threads 10
+        f"""
+        mkdir -p {output_dir}/foldseek/tmp
+        foldseek easy-search {output_dir}/colabfold {db_dir}/foldseek_db/pb {output_dir}/foldseek/output_easy_search.m8 \
+            {output_dir}/foldseek/tmp --threads 10
         """

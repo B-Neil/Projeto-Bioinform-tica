@@ -1,17 +1,25 @@
+fasta = config["file_path"]
+db_dir = config["database_dir"]
+output_dir = config["output_dir"]
+filename = config["filename"]
+
+
 rule download_clean:
     output:
-        "data/clean_src/.download_done"
+        "data/clean_src/.cloned"
     shell:
         """
-        [ -d data/clean_src ] || git clone https://github.com/tttianhao/CLEAN.git data/clean_src
-        touch data/clean_src/.download_done
+        if [ ! -f data/clean_src/app/build.py ]; then
+            rm -rf data/clean_src  # remove diretório corrompido ou incompleto
+            git clone https://github.com/tttianhao/CLEAN.git data/clean_src
+        fi
+        touch {output}
         """
-
 
 
 rule install_clean:
     input:
-        "data/clean_src/.download_done"
+        "data/clean_src/.cloned"
     output:
         "data/clean_src/app/.installed"
     conda:
@@ -22,6 +30,7 @@ rule install_clean:
         python build.py install
         touch .installed
         """
+
 
 
 rule esm:
@@ -62,25 +71,25 @@ rule download_clean_models:
 
 rule clean_infer:
     input:
-        "data/clean_src/.download_done",
         "data/clean_src/app/.installed",
         "data/clean_src/app/.installed_esm",
         "data/clean_src/app/data/pretrained/split100.pth",
     output:
-        "data/clean_src/app/results/inputs/subset_f_maxsep.csv"
+        f"{output_dir}/clean/{filename}_maxsep.csv"
     conda:
         "../../envs/module_3/clean.yaml"
     shell:
-        """
-        mkdir -p results/clean
-        
+        f"""
+        mkdir -p {output_dir}/clean
+        cp {fasta} data/clean_src/app/data/inputs
         cd data/clean_src/app
         mkdir -p data/esm_data
 
         LIBIOMP_PATH=$(find $(dirname $(dirname $(which python)))/lib -name "libiomp5.so" | head -n 1)
         export LD_PRELOAD=$LIBIOMP_PATH 
 
-        python CLEAN_infer_fasta.py --fasta_data subset_f
+        python CLEAN_infer_fasta.py --fasta_data {filename}
+        cp {output_dir}/inputs/{filename}_maxsep.csv ../../../{output_dir}/clean
         """
 
 

@@ -4,38 +4,51 @@ import os
 configfile: "config/config.yaml"
 config["threads"] = workflow.cores
 
-# Module_1
-include: "workflow/rules/module_1/recognizer.smk"
-include: "workflow/rules/module_1/eggnogmapper.smk"
-#include: "workflow/rules/module_1/upimapi.smk"
+fasta = config["file_path"]
+db_dir = config["database_dir"]
+output_dir = config["output_dir"]
+filename = config["filename"]
 
-# Module_2
-include: "workflow/rules/module_2/colabfold.smk"
-include: "workflow/rules/module_2/deepfri.smk"
-include: "workflow/rules/module_2/foldseek.smk"
 
-#module3
-include: "workflow/rules/module_3/clean.smk"
+# Load modules from config
+included_modules = config.get("include_modules", [])
+for rule_path in included_modules:
+    include: rule_path
 
+# Dynamically build list of expected outputs
+all_outputs = []
+
+# Module 1
+if "workflow/rules/module_1/recognizer.smk" in included_modules:
+    all_outputs.append(f"{output_dir}/recognizer_results/reCOGnizer_results.tsv")
+
+if "workflow/rules/module_1/eggnogmapper.smk" in included_modules:
+    all_outputs.append(f"{output_dir}/eggnogmapper_results/eggnog_mapper_results.emapper.annotations")
+
+if "workflow/rules/module_1/upimapi.smk" in included_modules:
+    all_outputs.append(f"{output_dir}/upimapi/UPIMAPI_results.tsv")
+
+# Module 2
+if "workflow/rules/module_2/colabfold.smk" in included_modules:
+    all_outputs.append(f"{output_dir}/colabfold/config.json")
+
+if "workflow/rules/module_2/deepfri.smk" in included_modules:
+    all_outputs.append("data/deepfri_src/.requirements_done")
+    all_outputs.append(f"{output_dir}/deepfri/DeepFRI_MF_predictions.csv")
+
+if "workflow/rules/module_2/foldseek.smk" in included_modules:
+    all_outputs.append(f"{output_dir}/foldseek/output_easy_search.m8")
+    all_outputs.append("data/databases/foldseek_db/.pdb_ready")
+
+# Module 3
+if "workflow/rules/module_3/clean.smk" in included_modules:
+    all_outputs.append(f"{output_dir}/clean/{filename}_maxsep.csv")
+
+if "workflow/rules/module_3/deepgo_se.smk" in included_modules:
+    all_outputs.append("data/deepgo2/predict.py")
+    all_outputs.append(f"{output_dir}/deepgo2/{filename}_preds_mf.tsv")
+
+# Final rule
 rule all:
     input:
-        # Module_1
-        "results/recognizer_results/reCOGnizer_results.tsv",
-        "results/eggnogmapper_results/eggnog_mapper_results.emapper.annotations",
-        # "results/upimapi_results.tsv",
-
-        # Module_2
-        "results/colabfold",
-        "data/deepfri_src/.requirements_done",
-        "results/foldseek/output_easy_search.m8",
-        "data/databases/foldseek_db/.pdb_ready",
-        "data/databases/foldseek_db/.pdb_ready",
-        "results/foldseek/output_easy_search.m8",
-
-        # Module_3
-        "data/clean_src/.download_done",
-        "data/clean_src/app/results/inputs/subset_f_maxsep.csv",
-        "data/clean_src/app/.installed",
-        "data/clean_src/app/.installed_esm",
-        "data/clean_src/app/data/pretrained/.models"
-
+        all_outputs

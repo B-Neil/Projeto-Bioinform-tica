@@ -1,4 +1,25 @@
-input_fasta: "data/proteins/subset_f.fasta"
+#All paths are relative to the Snakefile.
+
+#Just the name of the file without the .fasta
+filename: "datasetproteomics"
+
+file_path: "data/proteins/datasetproteomics.fasta"
+
 output_dir: "results"
+
 database_dir: "data/databases"
-input_fasta_clean: "data/proteins/subset_f.fasta"
+
+
+#Tools to be used:
+include_modules:
+#Module 1 - Homology tools
+  - "workflow/rules/module_1/upimapi.smk"     
+  - "workflow/rules/module_1/eggnogmapper.smk"  
+  - "workflow/rules/module_1/recognizer.smk"    
+# Module 2 - Structure tools
+  - "workflow/rules/module_2/colabfold.smk"    
+  - "workflow/rules/module_2/deepfri.smk"      
+  - "workflow/rules/module_2/foldseek.smk"    
+#Module 3 - Machine Learning tools
+  - "workflow/rules/module_3/clean.smk"  
+  - "workflow/rules/module_3/deepgo_se.smk"
