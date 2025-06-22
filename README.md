@@ -56,7 +56,7 @@ project/
 ## 🔧 Installation
 ```bash
 git clone https://github.com/B-Neil/Projeto-Bioinform-tica.git
-cd Projeto-Bioinform-tica/project
+cd Projeto-Bioinform-tica/Project
 
 ```
 ## ▶️ Usage
