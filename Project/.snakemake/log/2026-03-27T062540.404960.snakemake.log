@@ -1,0 +1,10 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: turing
+Building DAG of jobs...
+MissingInputException in rule recognizer in file "/home/jferreira/Projeto-Bioinform-tica/Project/workflow/rules/module_1/recognizer.smk", line 4:
+Missing input files for rule recognizer:
+    output: results/recognizer_results/reCOGnizer_results.tsv
+    wildcards: output_dir=results
+    affected files:
+        data/proteins/datasetproteomics.fasta

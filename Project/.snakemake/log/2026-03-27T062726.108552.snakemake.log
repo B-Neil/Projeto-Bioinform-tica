@@ -1,0 +1,9 @@
+Assuming unrestricted shared filesystem usage.
+None
+host: turing
+Building DAG of jobs...
+MissingInputException in rule eggnog_mapper in file "/home/jferreira/Projeto-Bioinform-tica/Project/workflow/rules/module_1/eggnogmapper.smk", line 31:
+Missing input files for rule eggnog_mapper:
+    output: results/eggnogmapper_results/eggnog_mapper_results.emapper.annotations
+    affected files:
+        data/databases/eggnogmapper/dbs.done

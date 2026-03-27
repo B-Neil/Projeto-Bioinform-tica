@@ -6,7 +6,7 @@ eggnog_db_done = os.path.join(eggnog_db_dir, "eggnog.db.done")
 
 rule download_eggnog_db:
     output:
-        eggnog_db_done
+        "data/databases/eggnogmapper/dbs.done"
     conda:
         "../../envs/module_1/eggnogmapper.yaml"
     shell:
