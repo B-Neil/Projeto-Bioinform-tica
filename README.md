@@ -35,7 +35,7 @@ project/
 ## ⚙️ Requisitos
 
 - Linux / WSL
-- Snakemake
+- Snakemake==9.5.1
 - Conda
 
 ---
