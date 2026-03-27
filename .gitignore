@@ -1,0 +1,7 @@
+Project/.snakemake
+*.log
+__pycache__/
+*.pyc
+.env/
+.venv/
+Project/results/
