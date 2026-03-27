@@ -9,12 +9,12 @@ rule colabfold:
         output_dir = config["output_dir"],
 
     output:
-        f"{output_dir}/colabfold/config.json"
+        "{output_dir}/colabfold/config.json"
     threads: config["threads"]
     conda:
         "../../envs/module_2/colabfold.yaml"
     shell:
-        f"""
+        """
         cd data/proteins
         python trunc_fasta.py ../../{fasta}
         cd ../..

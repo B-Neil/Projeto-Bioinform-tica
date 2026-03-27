@@ -10,3 +10,4 @@ dependencies:
   - hhsuite
   - kalign2
   - python=3.9
+  - cuda-nvcc

@@ -4,6 +4,15 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - recognizer
-  - blast
-
+  - python
+  - pandas
+  - blast >=2.12
+  - rpsbproc
+  - lxml
+  - openpyxl
+  - krona
+  - wget
+  - tqdm
+  - xlsxwriter
+  - requests
+  - pyyaml

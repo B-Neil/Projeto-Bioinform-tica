@@ -75,11 +75,11 @@ rule clean_infer:
         "data/clean_src/app/.installed_esm",
         "data/clean_src/app/data/pretrained/split100.pth",
     output:
-        f"{output_dir}/clean/{filename}_maxsep.csv"
+        "{output_dir}/clean/{filename}_maxsep.csv"
     conda:
         "../../envs/module_3/clean.yaml"
     shell:
-        f"""
+        """
         mkdir -p {output_dir}/clean
         cp {fasta} data/clean_src/app/data/inputs
         cd data/clean_src/app

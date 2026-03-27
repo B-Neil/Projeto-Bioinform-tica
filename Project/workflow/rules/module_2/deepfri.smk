@@ -42,11 +42,11 @@ rule deepfri:
         "data/deepfri_src/.requirements_done",
         "data/deepfri_src/setup.py",
     output:
-        f"{output_dir}/deepfri/DeepFRI_MF_predictions.csv"
+        "{output_dir}/deepfri/DeepFRI_MF_predictions.csv"
     conda:
         "../../envs/module_2/deepfri.yaml"
     shell:
-        f"""
+        """
         mkdir -p {output_dir}/deepfri
         cd data/deepfri_src
         python predict.py --pdb_dir ../../{output_dir}/colabfold -ont mf -v

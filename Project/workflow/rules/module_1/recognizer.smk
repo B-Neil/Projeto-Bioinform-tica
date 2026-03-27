@@ -7,7 +7,7 @@ rule recognizer:
         db_dir = config["database_dir"],
         output_dir = config["output_dir"]
     output:
-        f"{output_dir}/recognizer_results/reCOGnizer_results.tsv"
+        "{output_dir}/recognizer_results/reCOGnizer_results.tsv"
     threads: config["threads"]
     conda:
         "../../envs/module_1/recognizer.yaml"

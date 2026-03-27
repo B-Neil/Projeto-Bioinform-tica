@@ -12,15 +12,28 @@ rule download_eggnog_db:
     shell:
         """
         mkdir -p {eggnog_db_dir}
-        download_eggnog_data.py -y --data_dir {eggnog_db_dir}
-        touch {output}
+        cd {eggnog_db_dir}
+        wget -nc http://eggnog5.embl.de/download/emapperdb-5.0.2/eggnog.db.gz
+        gunzip eggnog.db.gz
+        wget -nc http://eggnog5.embl.de/download/emapperdb-5.0.2/eggnog.taxa.tar.gz
+        gunzip eggnog.taxa.tar.gz
+        wget -nc http://eggnog5.embl.de/download/emapperdb-5.0.2/eggnog_proteins.dmnd.gz
+        gunzip eggnog_proteins.dmnd.gz
+        wget -nc http://eggnog5.embl.de/download/emapperdb-5.0.2/mmseqs.tar.gz
+        gunzip mmseqs.tar.gz
+        wget -nc http://eggnog5.embl.de/download/emapperdb-5.0.2/pfam.tar.gz
+        gunzip pfam.tar.gz
+        
+
+        touch dbs.done
         """
 
 rule eggnog_mapper:
     input:
+        "data/databases/eggnogmapper/dbs.done",
         fasta = config["file_path"],
-        db_done = eggnog_db_done,
         output_dir = config["output_dir"]
+        
     output:
         annotations = os.path.join(config["output_dir"], "eggnogmapper_results", "eggnog_mapper_results.emapper.annotations")
     threads: config["threads"]
@@ -35,5 +48,6 @@ rule eggnog_mapper:
                    --data_dir {eggnog_db_dir} \
                    --cpu {threads} \
                    --usemem \
-                   --go_evidence all
+                   --go_evidence all \
+                   --dbmem
         """

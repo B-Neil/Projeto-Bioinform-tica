@@ -7,3 +7,4 @@ dependencies:
   - python=3.9
   - eggnog-mapper=2.1.12
   - biopython=1.79
+  - cuda-nvcc

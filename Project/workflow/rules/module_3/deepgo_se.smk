@@ -36,11 +36,11 @@ rule deepgo2:
         "data/deepgo2/predict.py",
         "data/deepgo2/.data_download"
     output:
-        f"{output_dir}/deepgo2/{filename}_preds_mf.tsv"
+        "{output_dir}/deepgo2/{filename}_preds_mf.tsv"
     conda:
         "../../envs/module_3/deepgo_se.yaml"
     shell:
-        f"""
+        """
         mkdir -p {output_dir}/deepgo2
         cp {fasta} {output_dir}/deepgo2
         cd data/deepgo2
